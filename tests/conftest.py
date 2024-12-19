@@ -10,10 +10,8 @@ def driver():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
     driver = webdriver.Chrome(options=chrome_options)
-    try:
-        yield driver
-    finally:
-        driver.quit()
+    yield driver
+    driver.quit()
 
 
 @pytest.fixture()

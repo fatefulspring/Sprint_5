@@ -15,12 +15,18 @@ class TestConstructor:
         assert driver.current_url == constants.MAIN_PAGE_URL
 
 
-    @pytest.mark.parametrize('tab', ['Соусы', 'Булки', 'Начинки'])
+    @pytest.mark.parametrize('tab', ['Соусы', 'Начинки'])
     def test_constructor_tabs_transition(self, login, driver, tab):
         driver.get(constants.MAIN_PAGE_URL)
-        if tab == 'Булки':
-            driver.find_element(By.XPATH, locators.SAUCE_TAB_PATH).click()
         driver.find_element(By.XPATH, locators.TAB_PATH.format(tab=tab)).click()
         assert constants.ACTIVE_TAB_CLASS in driver.find_element(
             By.XPATH, locators.TAB_PATH_TEMPLATE.format(tab)
+        ).get_attribute("class")
+
+    def test_constructor_tabs_transition_bun(self, login, driver):
+        driver.get(constants.MAIN_PAGE_URL)
+        driver.find_element(By.XPATH, locators.SAUCE_TAB_PATH).click()
+        driver.find_element(By.XPATH, locators.TAB_PATH.format(tab='Булки')).click()
+        assert constants.ACTIVE_TAB_CLASS in driver.find_element(
+            By.XPATH, locators.TAB_PATH_TEMPLATE.format('Булки')
         ).get_attribute("class")
